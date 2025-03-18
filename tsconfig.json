@@ -1,20 +1,27 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Node 20",
-  "_version": "20.19.0",
+  "_version": "20.1.0",
 
   "compilerOptions": {
     "lib": ["es2023"],
-    "module": "node16",
+    "module": "ESNext",
     "target": "es2022",
 
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "moduleResolution": "node16",
-
-    "outDir": "dist"
+    "moduleResolution": "Bundler",
+    "baseUrl": "./src/",
+    "outDir": "dist",
+    "noUncheckedIndexedAccess": true,
+    "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "moduleDetection": "force"
   },
-  "include": ["src/**/*.ts"],
+
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
