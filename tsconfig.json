@@ -4,22 +4,22 @@
   "_version": "20.1.0",
 
   "compilerOptions": {
-    "lib": ["es2023"],
-    "module": "ESNext",
     "target": "es2022",
-
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "moduleResolution": "Bundler",
+    "lib": ["es2023"],
+    "moduleDetection": "force",
     "baseUrl": "./src/",
-    "outDir": "dist",
-    "noUncheckedIndexedAccess": true,
-    "verbatimModuleSyntax": true,
-    "allowJs": true,
+    "module": "ESNext",
+
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
+    "allowJs": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
     "noEmit": true,
-    "moduleDetection": "force"
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true
   },
 
   "include": ["src/**/*"],
