@@ -11,6 +11,9 @@
   "license": "MIT",
   "keywords": [],
   "main": "dist/index.js",
+  "bin": {
+    "create-ersn-app": "dist/index.js"
+  },
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
