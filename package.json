@@ -2,8 +2,16 @@
   "name": "create-ersn-app",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {},
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm --sourcemap --minify",
+    "dev:esbuild": "pnpm run build --watch",
+    "dev:node": "node --watch dist/index.js",
+    "dev:tsc": "tsc --watch --preserveWatchOutput",
+    "dev": "run-p dev:*"
+  },
   "keywords": [],
   "author": {
     "name": "Ersan Karimi",
@@ -12,6 +20,9 @@
   "license": "MIT",
   "packageManager": "pnpm@10.6.4+sha512.da3d715bfd22a9a105e6e8088cfc7826699332ded60c423b14ec613a185f1602206702ff0fe4c438cb15c979081ce4cb02568e364b15174503a63c7a8e2a5f6c",
   "devDependencies": {
+    "@types/node": "^22.13.10",
+    "esbuild": "^0.25.1",
+    "npm-run-all": "^4.1.5",
     "typescript": "^5.8.2"
   }
 }
