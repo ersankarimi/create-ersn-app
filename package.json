@@ -9,6 +9,14 @@
     "url": "https://ersankarimi.vercell.app"
   },
   "license": "MIT",
+  "homepage": "https://github.com/ersankarimi/create-ersn-app#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ersankarimi/create-ersn-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ersankarimi/create-ersn-app/issues"
+  },
   "keywords": [
     "cli",
     "starter-template",
