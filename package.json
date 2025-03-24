@@ -47,7 +47,8 @@
     "dev:esbuild": "pnpm run build --watch",
     "dev:node": "node --watch dist/index.cjs",
     "dev:tsc": "tsc --watch --preserveWatchOutput",
-    "dev": "run-p dev:*"
+    "dev": "run-p dev:*",
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "@clack/prompts": "^0.10.0",
