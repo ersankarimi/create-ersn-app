@@ -1,4 +1,3 @@
-import type { TemplateKey } from "templates";
 import fs from "node:fs";
 import process from "node:process";
 import { cancel, confirm, isCancel, log, outro, select } from "@clack/prompts";
@@ -30,9 +29,9 @@ export function isStringContainSpaces(str: string) {
   return /\s/.test(str);
 }
 
-export async function cloneGithubRepo(templateKey: TemplateKey, destination: string = ".") {
+export async function cloneGithubRepo(templateKey: string, destination: string = ".", parentTemplateKey?: string) {
   try {
-    const selectedTemplate = getTemplateByKey(templateKey);
+    const selectedTemplate = getTemplateByKey(templateKey, parentTemplateKey);
 
     if (!selectedTemplate) {
       throw new Error("Template not found");
