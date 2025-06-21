@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import type { TemplateKey } from "templates";
 import path from "node:path";
 import process from "node:process";
 import { intro, log, outro, select, spinner, text } from "@clack/prompts";
@@ -8,15 +7,17 @@ import chalk from "chalk";
 import { COLORS } from "colors";
 import filenamify from "filenamify";
 import gradient from "gradient-string";
-import { getTemplateByKey, TEMPLATES } from "templates";
+import { getTemplateByKey, getTemplateOptions, isParentTemplateKey } from "templates";
 import { cloneGithubRepo, getPackageManager, handleCancel, handleDestinationNoEmpty, isStringContainSpaces, shouldContinue } from "utils";
 import isValidFilename from "valid-filename";
 
 const state: {
-  selectedTemplateKey: TemplateKey | null;
+  selectedParentTemplateKey: string | undefined;
+  selectedTemplateKey: string | undefined;
   projectName: string;
 } = {
-  selectedTemplateKey: null,
+  selectedParentTemplateKey: undefined,
+  selectedTemplateKey: undefined,
   projectName: "my-app",
 };
 
@@ -45,17 +46,15 @@ const banner = gradient([
   ].join("\n"),
 );
 
-async function selectingTemplateKey() {
+async function selectingTemplateKey(parentTemplateKey?: string) {
   try {
+    const templateMessage = !parentTemplateKey
+      ? "Choose what starter template you want to use"
+      : `Choose what starter template you want to use for ${parentTemplateKey}`;
+
     const userTemplateKey = await select({
-      message: "Choose what starter template you want to use",
-      options: TEMPLATES.map((item) => {
-        return {
-          value: item.key,
-          label: item.title,
-          hint: item.description,
-        };
-      }),
+      message: templateMessage,
+      options: getTemplateOptions(parentTemplateKey),
     });
 
     await handleCancel(userTemplateKey);
@@ -64,11 +63,21 @@ async function selectingTemplateKey() {
       throw new TypeError("You didn't select a Template");
     }
     else {
-      state.selectedTemplateKey = userTemplateKey;
-      const selectedTemplate = getTemplateByKey(userTemplateKey);
-      log.info(
-        `Selected starter template: ${selectedTemplate?.title}`,
-      );
+      const isParent = parentTemplateKey ? false : isParentTemplateKey(userTemplateKey);
+
+      if (isParent) {
+        state.selectedParentTemplateKey = userTemplateKey;
+
+        // userTemplateKey === parentTemplateKey
+        await selectingTemplateKey(userTemplateKey);
+      }
+      else {
+        state.selectedTemplateKey = userTemplateKey;
+        const selectedTemplate = getTemplateByKey(userTemplateKey, parentTemplateKey);
+        log.info(
+          `Selected starter template: ${selectedTemplate?.title}`,
+        );
+      }
     }
   }
   catch (error) {
@@ -138,7 +147,7 @@ async function downloadTheTemplate() {
 
     s.start("Downloading the template ....");
 
-    await cloneGithubRepo(state.selectedTemplateKey, fullDestination);
+    await cloneGithubRepo(state.selectedTemplateKey, fullDestination, state.selectedParentTemplateKey);
 
     s.stop(
       "✅ Successfully downloaded the template",
